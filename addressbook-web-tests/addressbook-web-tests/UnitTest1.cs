@@ -9,7 +9,6 @@ namespace addressbook_web_tests
         [TestMethod]
         public void TestMethod1()
         {
-            // VS с русскоязычным интерфейсом
         }
     }
 }
