@@ -20,11 +20,11 @@ namespace WebAddressbookTests
         [SetUp]
         public void SetupTest()
         {
-            driver = new FirefoxDriver(new FirefoxBinary("c:\\Program Files\\Mozilla Firefox\\firefox.exe"), new FirefoxProfile());
-            //FirefoxOptions options = new FirefoxOptions();
-            //options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
-            //options.UseLegacyImplementation = true;
-            //driver = new FirefoxDriver(options);
+            //driver = new FirefoxDriver(new FirefoxBinary("c:\\Program Files\\Mozilla Firefox\\firefox.exe"), new FirefoxProfile());
+            FirefoxOptions options = new FirefoxOptions();
+            options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
+            options.UseLegacyImplementation = true;
+            driver = new FirefoxDriver(options); ;
             baseURL = "http://localhost/";
             verificationErrors = new StringBuilder();
         }
@@ -44,17 +44,9 @@ namespace WebAddressbookTests
         }
 
         [Test]
-        public void TheUntitledTest()
+        public void GroupCreationTest()
         {
-            driver.Navigate().GoToUrl(baseURL + "addressbook/");
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys("admin");
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys("secret");
-            driver.FindElement(By.CssSelector("input[type=\"submit\"]")).Click();
-            driver.FindElement(By.LinkText("groups")).Click();
-            driver.FindElement(By.LinkText("groups")).Click();
-            driver.FindElement(By.LinkText("Logout")).Click();
+            driver.Navigate().GoToUrl(baseURL + "addressbook/group.php");
             driver.FindElement(By.Name("user")).Clear();
             driver.FindElement(By.Name("user")).SendKeys("admin");
             driver.FindElement(By.Name("pass")).Clear();
