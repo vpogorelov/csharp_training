@@ -20,11 +20,11 @@ namespace WebAddressbookTests
         [SetUp]
         public void SetupTest()
         {
-            //driver = new FirefoxDriver(new FirefoxBinary("c:\\Program Files\\Mozilla Firefox\\firefox.exe"), new FirefoxProfile());
-            FirefoxOptions options = new FirefoxOptions();
-            options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
-            options.UseLegacyImplementation = true;
-            driver = new FirefoxDriver(options); ;
+            driver = new FirefoxDriver(new FirefoxBinary("c:\\Program Files\\Mozilla Firefox\\firefox.exe"), new FirefoxProfile());
+            //FirefoxOptions options = new FirefoxOptions();
+            //options.BrowserExecutableLocation = @"c:\Program Files\Mozilla Firefox\firefox.exe";
+            //options.UseLegacyImplementation = true;
+            //driver = new FirefoxDriver(options); //
             baseURL = "http://localhost/";
             verificationErrors = new StringBuilder();
         }
