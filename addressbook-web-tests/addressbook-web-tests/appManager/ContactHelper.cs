@@ -47,18 +47,13 @@ namespace WebAddressbookTests
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Fname);
-            if (contact.Mname != "")
-            {
-                driver.FindElement(By.Name("middlename")).Clear();
-                driver.FindElement(By.Name("middlename")).SendKeys(contact.Mname);
-            }
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lname);
+
+            Type(By.Name("firstname"), contact.Fname);
+            Type(By.Name("middlename"), contact.Mname);
+            Type(By.Name("lastname"), contact.Lname);
             return this;
         }
-
+        
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
