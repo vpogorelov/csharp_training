@@ -95,5 +95,11 @@ namespace WebAddressbookTests
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
+
+        public bool AContactExists()
+        {
+            manager.Navigator.GoToHomePage();
+            return IsElementPresent(By.Name("selected[]"));
+        }
     }
 }

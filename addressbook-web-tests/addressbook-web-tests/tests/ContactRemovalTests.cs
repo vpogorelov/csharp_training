@@ -8,11 +8,14 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : TestBase
+    public class ContactRemovalTests : AuthTestBase
     {
         [Test]
         public void ContactRemovalTest()
         {
+            if(!app.Contacts.AContactExists())
+                app.Contacts.Create(new ContactData("tmpName", "tmpName"));
+
             app.Contacts.Remove(1);
         }
     }

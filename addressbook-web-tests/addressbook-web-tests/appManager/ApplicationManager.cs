@@ -52,8 +52,12 @@ namespace WebAddressbookTests
 
         public static ApplicationManager GetInstance()
         {
-            if(!app.IsValueCreated)
-                app.Value = new ApplicationManager();
+            if (!app.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigator.GoToHomePage();
+                app.Value = newInstance;
+            }
             return app.Value;
         }
 
