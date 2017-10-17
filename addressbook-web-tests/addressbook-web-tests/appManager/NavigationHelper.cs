@@ -22,15 +22,15 @@ namespace WebAddressbookTests
 
         public void GoToHomePage()
         {
-            if (!(driver.Url == baseURL + "addressbook/"))
-                driver.Navigate().GoToUrl(baseURL + "addressbook/");
+            //if (!(driver.Url == baseURL + "addressbook/")) // cancel 'if()': находясь на HomePage имеет смысл обновлять страницу, её содержание могло измениться
+            driver.Navigate().GoToUrl(baseURL + "addressbook/");
         }
 
         public void GoToGroupsPage()
         {
-            if (!(driver.Url == baseURL + "addressbook/group.php"
-                && IsElementPresent(By.Name("new"))))
-                driver.FindElement(By.LinkText("groups")).Click();
+            //if (!(driver.Url == baseURL + "addressbook/group.php"
+            //    && IsElementPresent(By.Name("new"))))// cancel 'if()': находясь на GroupsPage имеет смысл обновлять страницу, её содержание могло измениться
+            driver.FindElement(By.LinkText("groups")).Click();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace WebAddressbookTests
             newData.Footer = "newFFF"; //null;// "newFFF";
             newData.Header = "newHHH"; //null;// "newHHH";
 
-            app.Groups.Modify(1, newData);
+            app.Groups.Modify(0, newData);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace WebAddressbookTests
             Type(By.Name("lastname"), contact.Lname);
             return this;
         }
-        
+
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
@@ -68,12 +68,12 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {   // checkBox.Select
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
 
         public ContactHelper RemoveContact()
-        {   // buttom [Delete].Click
+        {   // button [Delete].Click
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
             return this;
         }
@@ -84,9 +84,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification(int number)
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + number + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[" + (index + 1) + "]")).Click();
             return this;
         }
 
@@ -100,6 +100,45 @@ namespace WebAddressbookTests
         {
             manager.Navigator.GoToHomePage();
             return IsElementPresent(By.Name("selected[]"));
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            manager.Navigator.GoToHomePage();
+            List<ContactData> contacts = new List<ContactData>();
+            //ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name = 'entry']")); // "tr" "td.center" "tr.entry"
+            ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[2]"));
+            ICollection<IWebElement> firstNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[3]"));
+            IWebElement[] lastNameArray = new IWebElement[lastNameColumn.Count];
+            int i = 0;
+            foreach (IWebElement lastName in lastNameColumn)
+            {
+                lastNameArray[i] = lastName;
+                i++;
+            }
+            i = 0;
+            foreach (IWebElement firstName in firstNameColumn)
+            {
+                contacts.Add(new ContactData(firstName.Text, lastNameArray[i].Text));
+                i++;
+            }
+
+            return contacts;
+            //for (int i=0,i<count,i++)
+            //{
+            //    contacts.Add(new ContactData(lastNameColumn[i].Text));
+            //}
+
+            //string xpatnwithIndex = "//tr[@name = 'entry']//td[N]";
+            //ICollection<IWebElement> hedersr = driver.FindElements(By.XPath("//tr/th[contains(@class, 'sortable fd-column')]"));
+            //int countOfColumns = hedersr.Count;
+            //ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath(xpatnwithIndex.Replace("N", "3")));
+
+            //foreach (IWebElement element in lastNameColumn)
+            //{
+            //    ContactData contact = new ContactData(element.Text);
+            //    contacts.Add(contact);
+            //}
         }
     }
 }

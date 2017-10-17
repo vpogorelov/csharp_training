@@ -17,9 +17,9 @@ namespace WebAddressbookTests
                 app.Contacts.Create(new ContactData("tmpName", "tmpName"));
 
             ContactData newContactData = new ContactData("newFirstname", "newLastname");
-            newContactData.Mname = "newMName";
+            //newContactData.Mname = "newMName";
 
-            app.Contacts.Modify(1, newContactData);
+            app.Contacts.Modify(0, newContactData);
         }
     }
 }
