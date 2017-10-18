@@ -124,21 +124,11 @@ namespace WebAddressbookTests
             }
 
             return contacts;
-            //for (int i=0,i<count,i++)
-            //{
-            //    contacts.Add(new ContactData(lastNameColumn[i].Text));
-            //}
 
             //string xpatnwithIndex = "//tr[@name = 'entry']//td[N]";
-            //ICollection<IWebElement> hedersr = driver.FindElements(By.XPath("//tr/th[contains(@class, 'sortable fd-column')]"));
-            //int countOfColumns = hedersr.Count;
+            //ICollection<IWebElement> headersr = driver.FindElements(By.XPath("//tr/th[contains(@class, 'sortable fd-column')]"));
+            //int countOfColumns = headersr.Count;
             //ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath(xpatnwithIndex.Replace("N", "3")));
-
-            //foreach (IWebElement element in lastNameColumn)
-            //{
-            //    ContactData contact = new ContactData(element.Text);
-            //    contacts.Add(contact);
-            //}
         }
     }
 }
