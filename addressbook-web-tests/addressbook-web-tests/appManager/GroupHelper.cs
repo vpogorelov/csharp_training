@@ -61,7 +61,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
-            groupCashe = null;
+            groupCache = null;
             return this;
         }
 
@@ -80,7 +80,7 @@ namespace WebAddressbookTests
         public GroupHelper RemoveGroup()
         {   // buttom [Delete group(s)].Click
             driver.FindElement(By.XPath("(//input[@name='delete'])[2]")).Click();
-            groupCashe = null;
+            groupCache = null;
             return this;
         }
 
@@ -93,7 +93,7 @@ namespace WebAddressbookTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
-            groupCashe = null;
+            groupCache = null;
             return this;
         }
 
@@ -103,22 +103,23 @@ namespace WebAddressbookTests
             return IsElementPresent(By.Name("selected[]"));
         }
 
-        private List<GroupData> groupCashe = null;
+        private List<GroupData> groupCache = null;
 
         public List<GroupData> GetGroupList()
         {
-            if(groupCashe == null)
+            if(groupCache == null)
             {
-                groupCashe = new List<GroupData>();
+                groupCache = new List<GroupData>();
                 manager.Navigator.GoToGroupsPage();
                 ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
                 foreach (IWebElement element in elements)
                 {
-                    element.FindElement(By.TagName("input")).GetAttribute("value");
-                    groupCashe.Add(new GroupData(element.Text));
+                    GroupData group = new GroupData(element.Text);
+                    group.Id = element.FindElement(By.TagName("input")).GetAttribute("value");
+                    groupCache.Add(group);
                 }
             }
-            return new List<GroupData>(groupCashe);
+            return new List<GroupData>(groupCache);
         }
 
         public int GetGroupCount()
