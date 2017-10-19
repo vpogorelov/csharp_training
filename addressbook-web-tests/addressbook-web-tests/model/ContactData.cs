@@ -8,14 +8,10 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string fname;
-        private string mname = "";
-        private string lname;
-
         public ContactData(string fname, string lname) // fname, lname - необходимые идентификаторы контакта
         {
-            this.fname = fname;
-            this.lname = lname;
+            Fname = fname;
+            Lname = lname;
         }
 
         public bool Equals(ContactData other)
@@ -44,38 +40,12 @@ namespace WebAddressbookTests
             return (Fname + Lname).CompareTo(other.Fname + other.Lname);
         }
 
-        public string Fname
-        {
-            get
-            {
-                return fname;
-            }
-            set
-            {
-                fname = value;
-            }
-        }
-        public string Mname
-        {
-            get
-            {
-                return mname;
-            }
-            set
-            {
-                mname = value;
-            }
-        }
-        public string Lname
-        {
-            get
-            {
-                return lname;
-            }
-            set
-            {
-                lname = value;
-            }
-        }
+        public string Fname { get; set; }
+
+        public string Mname { get; set; }
+
+        public string Lname { get; set; }
+
+        public string Id { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -18,6 +19,7 @@ namespace WebAddressbookTests
             SelectContact(number);
             RemoveContact();
             ConfirmRemoveContact();
+            ReturnToHomePage();
             return this;
         }
 
@@ -26,6 +28,7 @@ namespace WebAddressbookTests
             InitContactModification(number);
             FillContactForm(newContactData);
             ConfirmContactModification();
+            ReturnToHomePage();
             return this;
         }
 
@@ -57,12 +60,13 @@ namespace WebAddressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCash = null;
             return this;
         }
 
         public ContactHelper ReturnToHomePage()
         {
-            driver.FindElement(By.LinkText("home page")).Click();
+            driver.FindElement(By.LinkText("home")).Click();
             return this;
         }
 
@@ -81,6 +85,7 @@ namespace WebAddressbookTests
         public ContactHelper ConfirmRemoveContact()
         {   // "Delete 1 addresses?" => [OK].Click
             driver.SwitchTo().Alert().Accept();
+            contactCash = null;
             return this;
         }
 
@@ -93,6 +98,7 @@ namespace WebAddressbookTests
         public ContactHelper ConfirmContactModification()
         {   // button [Update].Click
             driver.FindElement(By.Name("update")).Click();
+            contactCash = null;
             return this;
         }
 
@@ -102,33 +108,36 @@ namespace WebAddressbookTests
             return IsElementPresent(By.Name("selected[]"));
         }
 
+        private List<ContactData> contactCash = null;
+
         public List<ContactData> GetContactList()
         {
-            manager.Navigator.GoToHomePage();
-            List<ContactData> contacts = new List<ContactData>();
-            //ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name = 'entry']")); // "tr" "td.center" "tr.entry"
-            ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[2]"));
-            ICollection<IWebElement> firstNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[3]"));
-            IWebElement[] lastNameArray = new IWebElement[lastNameColumn.Count];
-            int i = 0;
-            foreach (IWebElement lastName in lastNameColumn)
+            if (contactCash == null)
             {
-                lastNameArray[i] = lastName;
-                i++;
+                contactCash = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                int count = GetContactCount();
+                for (int i = 1; i <= count; i++)
+                {
+                    IWebElement e2 = driver.FindElement(By.XPath("//tr[@name = 'entry'][" + i + "]/td[2]"));
+                    IWebElement e3 = driver.FindElement(By.XPath("//tr[@name = 'entry'][" + i + "]/td[3]"));
+                    contactCash.Add(new ContactData(e3.Text, e2.Text));
+                }
             }
-            i = 0;
-            foreach (IWebElement firstName in firstNameColumn)
-            {
-                contacts.Add(new ContactData(firstName.Text, lastNameArray[i].Text));
-                i++;
-            }
+            return new List<ContactData>(contactCash);
 
-            return contacts;
+            //ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[2]"));
+            //ICollection<IWebElement> firstNameColumn = driver.FindElements(By.XPath("//tr[@name = 'entry']//td[3]"));
 
             //string xpatnwithIndex = "//tr[@name = 'entry']//td[N]";
             //ICollection<IWebElement> headersr = driver.FindElements(By.XPath("//tr/th[contains(@class, 'sortable fd-column')]"));
             //int countOfColumns = headersr.Count;
             //ICollection<IWebElement> lastNameColumn = driver.FindElements(By.XPath(xpatnwithIndex.Replace("N", "3")));
+        }
+
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.XPath("//tr[@name = 'entry']")).Count;
         }
     }
 }

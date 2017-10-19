@@ -14,12 +14,14 @@ namespace WebAddressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            if (!app.Groups.AGroupExists())
-                app.Groups.Create(new GroupData("tmpGroup"));
+            if (!app.Groups.AGroupExists())                     // если удалять нечего,
+                app.Groups.Create(new GroupData("tmpGroup"));   // сначала создать
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
 
-            app.Groups.Remove(0);
+            app.Groups.Remove(0);   // удалить группу с индексом '0' (верхнюю)
+
+            Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
 
