@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace WebAddressbookTests
 {
+    [TestFixture]
     public class ContactModificationTests : AuthTestBase
     {
         [Test]
@@ -17,7 +18,7 @@ namespace WebAddressbookTests
             if (!app.Contacts.AContactExists())                             // если модифицировать нечего,
                 app.Contacts.Create(new ContactData("tmpName", "tmpName")); // ... то сначала создать
 
-            ContactData newContactData = new ContactData("modifFirstname", "modifLastname");
+            ContactData newContactData = new ContactData("modif2010Firstname", "modifLastname");
             newContactData.Mname = "modifMName";
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();

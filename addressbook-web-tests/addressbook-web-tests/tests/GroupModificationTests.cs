@@ -16,9 +16,9 @@ namespace WebAddressbookTests
             if (!app.Groups.AGroupExists())                     // если модифицировать нечего,
                 app.Groups.Create(new GroupData("tmpGroup"));   // ... то сначала создать
 
-            GroupData newData = new GroupData("modif191017");
-            newData.Footer = "modifFFF"; //null;// "newFFF";
-            newData.Header = "modifHHH"; //null;// "newHHH";
+            GroupData newData = new GroupData("modif201017");
+            newData.Footer = "modifFFF"; //null;
+            newData.Header = "modifHHH"; //null;
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];
