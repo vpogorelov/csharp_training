@@ -9,6 +9,7 @@ namespace WebAddressbookTests
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
+        private string allEmails;
 
         public ContactData(string fname, string lname) // fname, lname - необходимые идентификаторы контакта
         {
@@ -55,13 +56,9 @@ namespace WebAddressbookTests
             get
             {
                 if (allPhones != null)
-                {
                     return allPhones;
-                }
                 else
-                {
                     return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
-                }
             }
             set
             {
@@ -79,6 +76,19 @@ namespace WebAddressbookTests
         public string Email1 { get; set; }
         public string Email2 { get; set; }
         public string Email3 { get; set; }
-        public string AllEmails { get; set; }
-    } 
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                    return allEmails;
+                else
+                    return (Email1 + "\r\n" + (Email2 == "" ? "" : Email2 + "\r\n") + Email3).Trim();
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+    }
 }
