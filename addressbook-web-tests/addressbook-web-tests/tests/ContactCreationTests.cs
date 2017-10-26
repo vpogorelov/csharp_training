@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
 
 namespace WebAddressbookTests
@@ -54,7 +55,30 @@ namespace WebAddressbookTests
             return JsonConvert.DeserializeObject<List<ContactData>>(File.ReadAllText("contacts.json"));
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]//("ContactDataFromXmlFile")]
+        public static IEnumerable<ContactData> ContactDataFromExelFile()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            Excel.Application app = new Excel.Application();
+            string path = Path.Combine(Directory.GetCurrentDirectory(), @"contacts.xlsx");
+            Excel.Workbook wb = app.Workbooks.Open(path);
+            Excel.Worksheet sheet = wb.ActiveSheet;
+            Excel.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                contacts.Add(new ContactData()
+                {
+                    FirstName = range[i, 1].Value,
+                    LastName = range[i, 2].Value,
+                    MiddleName = range[i, 3].Value,
+                });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return contacts;
+        }
+
+        [Test, TestCaseSource("ContactDataFromExelFile")]//("ContactDataFromJsonFile")]//("ContactDataFromXmlFile")]
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();

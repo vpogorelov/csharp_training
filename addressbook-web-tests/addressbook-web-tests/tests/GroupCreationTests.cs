@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
-
 
 namespace WebAddressbookTests
 {
@@ -37,9 +37,10 @@ namespace WebAddressbookTests
             foreach (string l in lines)
             {
                 string[] parts = l.Split(',');
-                groups.Add(new GroupData(parts[0]) {
-                Header = parts[1],
-                Footer = parts[2]
+                groups.Add(new GroupData(parts[0])
+                {
+                    Header = parts[1],
+                    Footer = parts[2]
                 });
             }
             return groups;
@@ -56,7 +57,29 @@ namespace WebAddressbookTests
             return JsonConvert.DeserializeObject<List<GroupData>>(File.ReadAllText("groups.json"));
         }
 
-        [Test, TestCaseSource("GroupDataFromJsonFile")] //("GroupDataFromXmlFile")]
+        public static IEnumerable<GroupData> GroupDataFromExelFile()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            Excel.Application app = new Excel.Application();
+            string path = Path.Combine(Directory.GetCurrentDirectory(), @"groups.xlsx");
+            Excel.Workbook wb = app.Workbooks.Open(path);
+            Excel.Worksheet sheet = wb.ActiveSheet;
+            Excel.Range range = sheet.UsedRange;
+            for (int i = 1; i <= range.Rows.Count; i++)
+            {
+                groups.Add(new GroupData() {
+                    Name = range[i, 1].Value,
+                    Header = range[i,2].Value,
+                    Footer = range[i, 3].Value,
+                });
+            }
+            wb.Close();
+            app.Visible = false;
+            app.Quit();
+            return groups;
+        }
+
+        [Test, TestCaseSource("GroupDataFromExelFile")]//("GroupDataFromJsonFile")] //("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
             List<GroupData> oldGroups = app.Groups.GetGroupList();
