@@ -14,18 +14,20 @@ namespace WebAddressbookTests
         [Test]
         public void ContactRemovalTest()
         {
-            if(!app.Contacts.AContactExists())                                  // если удалять нечего,
+            List<ContactData> oldContacts = ContactData.GetAll();
+            if (oldContacts.Count < 1)                                 // если удалять нечего,
+            {                               
                 app.Contacts.Create(new ContactData("tmpName", "tmpName"));     // сначала создать
+                oldContacts = ContactData.GetAll();
+            }
+            ContactData toBeRemoved = oldContacts[0];
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
-
-            app.Contacts.Remove(0); // удалить контакт с индексом '0' (верхний)
-
+            app.Contacts.Remove(toBeRemoved);
+            // vv BreakPoint vv
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
 
-            ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
             foreach(ContactData contact in newContacts)

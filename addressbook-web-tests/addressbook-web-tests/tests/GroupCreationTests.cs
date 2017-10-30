@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Excel = Microsoft.Office.Interop.Excel;
 using NUnit.Framework;
+using System.Linq;
 
 namespace WebAddressbookTests
 {
@@ -67,9 +68,10 @@ namespace WebAddressbookTests
             Excel.Range range = sheet.UsedRange;
             for (int i = 1; i <= range.Rows.Count; i++)
             {
-                groups.Add(new GroupData() {
+                groups.Add(new GroupData()
+                {
                     Name = range[i, 1].Value,
-                    Header = range[i,2].Value,
+                    Header = range[i, 2].Value,
                     Footer = range[i, 3].Value,
                 });
             }
@@ -79,16 +81,16 @@ namespace WebAddressbookTests
             return groups;
         }
 
-        [Test, TestCaseSource("GroupDataFromExelFile")]//("GroupDataFromJsonFile")] //("GroupDataFromXmlFile")]
+        [Test, TestCaseSource("GroupDataFromJsonFile")] //("GroupDataFromExelFile")]//("GroupDataFromJsonFile")] //("GroupDataFromXmlFile")]
         public void GroupCreationTest(GroupData group)
         {
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
 
             app.Groups.Create(group);
 
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
@@ -114,5 +116,20 @@ namespace WebAddressbookTests
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
         }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUI = app.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+
+            start = DateTime.Now;
+            List<GroupData> fromDB = GroupData.GetAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
+        }
+
     }
 }

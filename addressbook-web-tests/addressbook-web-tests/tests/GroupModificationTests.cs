@@ -13,28 +13,30 @@ namespace WebAddressbookTests
         [Test]
         public void GroupModificationTest()
         {
-            if (!app.Groups.AGroupExists())                     // если модифицировать нечего,
+            List<GroupData> oldGroups = GroupData.GetAll();
+            if (!app.Groups.AGroupExists())                    // если модифицировать нечего,
+            {
                 app.Groups.Create(new GroupData("tmpGroup"));   // ... то сначала создать
-
+                oldGroups = GroupData.GetAll();
+            }
             GroupData newData = new GroupData("modif201017");
             newData.Footer = "modifFFF"; //null;
             newData.Header = "modifHHH"; //null;
 
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData = oldGroups[0];
+            GroupData toBeModification = oldGroups[0];
 
-            app.Groups.Modify(0, newData);
+            app.Groups.Modify(toBeModification, newData);
 
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
 
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
             foreach (GroupData group in newGroups)
             {
-                if (group.Id == oldData.Id)
+                if (group.Id == toBeModification.Id)
                     Assert.AreEqual(newData.Name, group.Name);
             }
         }
