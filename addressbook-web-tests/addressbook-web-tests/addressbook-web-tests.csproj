@@ -81,11 +81,13 @@
     <Compile Include="tests\ContactInformationTests.cs" />
     <Compile Include="tests\ContactModificationTests.cs" />
     <Compile Include="tests\ContactRemovalTests.cs" />
+    <Compile Include="tests\ContactTestBase.cs" />
     <Compile Include="tests\GroupModificationTests.cs" />
     <Compile Include="tests\GroupRemovalTests.cs" />
     <Compile Include="appManager\HelperBase.cs" />
     <Compile Include="appManager\LoginHelper.cs" />
     <Compile Include="appManager\NavigationHelper.cs" />
+    <Compile Include="tests\GroupTestBase.cs" />
     <Compile Include="tests\LoginTests.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\TestBase.cs" />
