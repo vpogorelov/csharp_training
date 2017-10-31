@@ -71,7 +71,7 @@ namespace WebAddressbookTests
             {
                 return (from c in db.Contacts
                         from gcr in db.GCR.Where(p => p.GroupID == this.Id
-                        && p.ContactID == c.Id)
+                        && p.ContactID == c.Id && c.Deprecated == "0000-00-00 00:00:00")
                         select c).Distinct().ToList();
             }
         }
