@@ -98,6 +98,7 @@ namespace WebAddressbookTests
         public ContactHelper SelectContact(string id)
         {       // checkBox.Select
             driver.FindElement(By.XPath("(//input[@name='selected[]' and @id='" + id + "'])")).Click();
+            // +!: driver.FindElement(By.Id(id));
             return this;
         }
 
@@ -280,5 +281,28 @@ namespace WebAddressbookTests
             return Int32.Parse(m.Value);
         }
 
+        internal void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            CleareGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
+        private void CleareGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText("[all]");
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace WebAddressbookTests
             ContactData toBeRemoved = oldContacts[0];
 
             app.Contacts.Remove(toBeRemoved);
-            // vv BreakPoint vv
+
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
             List<ContactData> newContacts = ContactData.GetAll();

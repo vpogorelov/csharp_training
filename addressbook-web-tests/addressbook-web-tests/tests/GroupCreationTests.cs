@@ -120,16 +120,21 @@ namespace WebAddressbookTests
         [Test]
         public void TestDBConnectivity()
         {
-            DateTime start = DateTime.Now;
-            List<GroupData> fromUI = app.Groups.GetGroupList();
-            DateTime end = DateTime.Now;
-            System.Console.Out.WriteLine(end.Subtract(start));
+            foreach (ContactData contact in ContactData.GetAll())
+                System.Console.Out.WriteLine(contact.Deprecated);
 
-            start = DateTime.Now;
-            List<GroupData> fromDB = GroupData.GetAll();
-            end = DateTime.Now;
-            System.Console.Out.WriteLine(end.Subtract(start));
+            //GroupData gr = GroupData.GetAll()[0];
+            //foreach (ContactData contact in gr.GetContacts())
+            //    System.Console.Out.WriteLine(contact);
+
+            //DateTime start = DateTime.Now;
+            //List<GroupData> fromUI = app.Groups.GetGroupList();
+            //DateTime end = DateTime.Now;
+            //System.Console.Out.WriteLine(end.Subtract(start));
+            //start = DateTime.Now;
+            //List<GroupData> fromDB = GroupData.GetAll();
+            //end = DateTime.Now;
+            //System.Console.Out.WriteLine(end.Subtract(start));
         }
-
     }
 }
