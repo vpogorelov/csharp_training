@@ -58,6 +58,8 @@ namespace WebAddressbookTests
             FillContactForm(contact);
             SubmitContactCreation();
             ReturnToHomePage();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).
+                Until(d => d.FindElement(By.XPath("//input[@value='Delete']")).Displayed);
             return this;
         }
 

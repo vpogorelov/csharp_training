@@ -13,6 +13,22 @@ namespace WebAddressbookTests
         public void TestRemoveContactFromGroup()
         {
             List<GroupData> groups = GroupData.GetAll();
+            if (groups.Count < 1)
+            {
+                app.Groups.Create(new GroupData("newGroup")
+                {
+                    Header = "hhh",
+                    Footer = "fff"
+                });
+                groups = GroupData.GetAll();
+            }
+            if (ContactData.GetAll().Count < 1)
+            {
+                app.Contacts.Create(new ContactData("F.Name", "L.Name")
+                {
+                    MiddleName = "M.Name"
+                });
+            }
             int groupIndex = 0;
             while ((groupIndex < groups.Count) && (groups[groupIndex].GetContacts().Count < 1))
                 groupIndex++;
@@ -35,7 +51,6 @@ namespace WebAddressbookTests
             oldList.Sort();
             newList.Sort();
             Assert.AreEqual(oldList, newList);
-
         }
     }
 }
